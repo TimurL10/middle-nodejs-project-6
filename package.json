@@ -5,7 +5,7 @@
    "description": "@hexlet/code",
    "main": "./server/plugin.js",
    "engines": {
-      "node": ">=16.x"
+      "node":"20.x"
    },
    "scripts": {
       "prebuild": "rm -rf dist",
