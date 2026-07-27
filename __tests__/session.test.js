@@ -55,6 +55,31 @@ describe('test session', () => {
     expect(responseSignOut.statusCode).toBe(302);
   });
 
+  it('signs out through the form method override field', async () => {
+    const responseSignIn = await app.inject({
+      method: 'POST',
+      url: app.reverse('session'),
+      payload: {
+        data: testData.users.existing,
+      },
+    });
+    const [sessionCookie] = responseSignIn.cookies;
+    const { name, value } = sessionCookie;
+
+    const responseSignOut = await app.inject({
+      method: 'POST',
+      url: app.reverse('session'),
+      payload: {
+        _method: 'delete',
+      },
+      cookies: {
+        [name]: value,
+      },
+    });
+
+    expect(responseSignOut.statusCode).toBe(302);
+  });
+
   afterAll(async () => {
     // await knex.migrate.rollback();
     await app.close();

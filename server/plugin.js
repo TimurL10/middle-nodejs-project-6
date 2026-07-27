@@ -11,7 +11,6 @@ import fastifySecureSession from '@fastify/secure-session';
 import fastifyPassport from '@fastify/passport';
 import fastifySensible from '@fastify/sensible';
 import { plugin as fastifyReverseRoutes } from 'fastify-reverse-routes';
-import fastifyMethodOverride from 'fastify-method-override';
 import fastifyObjectionjs from 'fastify-objectionjs';
 import qs from 'qs';
 import Pug from 'pug';
@@ -85,7 +84,7 @@ const registerPlugins = async (app) => {
   await app.register(fastifyReverseRoutes);
   await app.register(fastifyFormbody, { parser: qs.parse });
   await app.register(fastifySecureSession, {
-    secret: '5e7347d1ec1e4a59bd8494c3f6c9be7c9eacf645d6ff33950fb70a9757f9ab28',//process.env.SESSION_KEY,
+    secret: process.env.SESSION_KEY,
     cookie: {
       path: '/',
     },
@@ -108,7 +107,6 @@ const registerPlugins = async (app) => {
   // @ts-ignore
   )(...args));
 
-  //await app.register(fastifyMethodOverride);
   await app.register(fastifyObjectionjs, {
     knexConfig: knexConfig[mode],
     models,
