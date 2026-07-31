@@ -3,13 +3,19 @@ extends ../layouts/application.pug
 block content
   table.table.table-striped
     thead
-      tr
+      tr        
         th= t('views.users.id')
+        th= t('views.users.firstName')
         th= t('views.users.email')
         th= t('views.users.createdAt')
+        th
     tbody
       each user in users
-        tr
+        tr          
           td= user.id
+          td= user.firstName + ' ' + user.lastName
           td= user.email
           td= formatDate(user.createdAt)
+          td
+            a.btn.btn-primary(href=route('users.edit', { id: String(user.id) }))= t('views.users.edit.action')
+            a.btn.btn-danger(href=route('users.delete', { id: String(user.id) }) data-method='delete' data-confirm=t('views.users.delete.confirm'))= t('views.users.delete.action')

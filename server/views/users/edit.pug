@@ -1,0 +1,12 @@
+extends ../layouts/application.pug
+
+block header
+  = t('views.users.edit.editProfile')
+
+block content
+  +formFor()(action=route('users.update', { id: String(user.id) }) method='post')
+    +input(user, 'firstName', errors)(type="text" placeholder=t('views.users.edit.firstName'))
+    +input(user, 'lastName', errors)(type="text" placeholder=t('views.users.edit.lastName'))
+    +input(user, 'email', errors)(type="text" placeholder=t('views.users.email'))
+    +input(user, 'password', errors)(type="password" placeholder=t('views.users.edit.password'))
+    +submit(user)(value=t('views.users.edit.submit'))

@@ -7,6 +7,10 @@
     "existing": {
       "email": "lawrence.kulas87@outlook.com",
       "password": "O6AvLIQL1cbzrre"
+    },
+    "existing_edited": {
+      "email": "lawrence.kulas87@outlook.com",
+      "password": "123321"
     }
   }
 }

@@ -70,6 +70,43 @@ describe('test users CRUD', () => {
     expect(user).toMatchObject(expected);
   });
 
+  it('edit', async () => {
+    const params = testData.users.existing_edited;
+    let user = await models.user.query().findOne({email: params.email});
+    const response = await app.inject({
+      method: 'POST',
+      url: app.reverse('users.update',{ id: String(user.id)}),
+      payload: {
+        data: params,
+      },
+    });
+
+    expect(response.statusCode).toBe(302);
+    const expected = {
+      ..._.omit(params, 'password'),
+      passwordDigest: encrypt(params.password),
+    };
+    user = await models.user.query().findOne({ email: params.email });
+    expect(user).toMatchObject(expected);
+  });
+
+  it('delete', async () => {
+    const params = testData.users.existing;
+    let user = await models.user.query().findOne({email: params.email});
+    const response = await app.inject({
+      method: 'GET',
+      url: app.reverse('users.delete',{ id: String(user.id)})      
+    });
+
+    expect(response.statusCode).toBe(302);
+    
+    user = await models.user.query().findOne({ email: params.email });
+    expect(user).toBeDefined();
+  });
+
+
+
+
   afterEach(async () => {
     // Пока Segmentation fault: 11
     // после каждого теста откатываем миграции

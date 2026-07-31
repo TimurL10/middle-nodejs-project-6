@@ -11,6 +11,7 @@
       "prebuild": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\"",
       "test": "jest --verbose --runInBand",
       "build": "webpack",
+      "dev": "fastify start -w server/plugin.js -l debug -P -o",
       "start": "fastify start server/plugin.js -l debug -P -o"
    },
    "jest": {
