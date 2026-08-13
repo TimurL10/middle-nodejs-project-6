@@ -1,0 +1,67 @@
+extends ../layouts/application.pug
+
+block header
+  = t('views.tasks.edit.header')
+
+block content
+  +formFor()(action=route('updateTask', { id: String(task.id) }) method='post')
+    - const nameErrors = _.get(errors, 'name')
+    - const descriptionErrors = _.get(errors, 'description')
+    - const statusErrors = _.get(errors, 'statusId')
+    - const executorErrors = _.get(errors, 'executorId')
+
+    .form-floating.mb-3
+      input#data_name.form-control(
+        class=(!_.isEmpty(nameErrors) ? 'is-invalid' : '')
+        name='data[name]'
+        type='text'
+        placeholder=t('views.tasks.name')
+        value=_.get(task, 'name', '')
+      )
+      label(for='data_name')= t('views.tasks.name')
+      if !_.isEmpty(nameErrors)
+        .invalid-feedback= nameErrors.map(({ message }) => message).join('. ')
+
+    .form-floating.mb-3
+      textarea#data_description.form-control(
+        class=(!_.isEmpty(descriptionErrors) ? 'is-invalid' : '')
+        name='data[description]'
+        placeholder=t('views.tasks.description')
+        style='height: 100px'
+      )= _.get(task, 'description', '')
+      label(for='data_description')= t('views.tasks.description')
+      if !_.isEmpty(descriptionErrors)
+        .invalid-feedback= descriptionErrors.map(({ message }) => message).join('. ')
+
+    .form-floating.mb-3
+      select#data_statusId.form-select(
+        class=(!_.isEmpty(statusErrors) ? 'is-invalid' : '')
+        name='data[statusId]'
+      )
+        option(value='')= t('views.tasks.selectStatus')
+        each taskStatus in taskStatuses
+          option(
+            value=taskStatus.id
+            selected=String(_.get(task, 'statusId', '')) === String(taskStatus.id)
+          )= taskStatus.name
+      label(for='data_statusId')= t('views.tasks.status')
+      if !_.isEmpty(statusErrors)
+        .invalid-feedback= statusErrors.map(({ message }) => message).join('. ')
+
+    .form-floating.mb-3
+      select#data_executorId.form-select(
+        class=(!_.isEmpty(executorErrors) ? 'is-invalid' : '')
+        name='data[executorId]'
+      )
+        option(value='')= t('views.tasks.selectExecutor')
+        each user in users
+          - const userName = [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email
+          option(
+            value=user.id
+            selected=String(_.get(task, 'executorId', '')) === String(user.id)
+          )= userName
+      label(for='data_executorId')= t('views.tasks.executor')
+      if !_.isEmpty(executorErrors)
+        .invalid-feedback= executorErrors.map(({ message }) => message).join('. ')
+
+    input.btn.btn-primary(type='submit' value=t('views.tasks.edit.submit'))

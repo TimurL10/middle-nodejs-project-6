@@ -1,0 +1,25 @@
+extends ../layouts/application.pug
+
+block header
+  = t('views.taskStatuses.index.header')
+
+block content
+  a.btn.btn-primary.mb-3(href=route('newTaskStatus'))= t('views.taskStatuses.index.create')
+
+  table.table.table-striped
+    thead
+      tr
+        th= t('views.taskStatuses.id')
+        th= t('views.taskStatuses.name')
+        th= t('views.taskStatuses.createdAt')
+        th
+    tbody
+      each taskstatus in taskstatuses
+        tr
+          td= taskstatus.id
+          td= taskstatus.name
+          td= formatDate(taskstatus.createdAt)
+          td
+            a.btn.btn-primary.me-2(href=route('editTaskStatus', { id: String(taskstatus.id) }))= t('views.taskStatuses.edit.action')
+            form.d-inline(action=route('deleteTaskStatus', { id: String(taskstatus.id) }) method="post")
+              input(type="submit" class="btn btn-danger" value=t('views.taskStatuses.delete.action'))

@@ -5,8 +5,56 @@ block header
 
 block content
   +formFor()(action=route('users') method='post')
-    +input(usersForm, 'firstName', errors)(type="text")
-    +input(usersForm, 'lastName', errors)(type="text")
-    +input(usersForm, 'email', errors)(type="text")
-    +input(usersForm, 'password', errors)(type="password")
-    +submit(usersForm)(value=t('views.users.new.submit'))
+    - const firstNameErrors = _.get(errors, 'firstName')
+    - const lastNameErrors = _.get(errors, 'lastName')
+    - const emailErrors = _.get(errors, 'email')
+    - const passwordErrors = _.get(errors, 'password')
+
+    .form-floating.mb-3
+      input#data_firstName.form-control(
+        class=(!_.isEmpty(firstNameErrors) ? 'is-invalid' : '')
+        name='data[firstName]'
+        type='text'
+        placeholder=t('views.users.firstName')
+        value=_.get(usersForm, 'firstName', '')
+      )
+      label(for='data_firstName')= t('views.users.firstName')
+      if !_.isEmpty(firstNameErrors)
+        .invalid-feedback= firstNameErrors.map(({ message }) => message).join('. ')
+
+    .form-floating.mb-3
+      input#data_lastName.form-control(
+        class=(!_.isEmpty(lastNameErrors) ? 'is-invalid' : '')
+        name='data[lastName]'
+        type='text'
+        placeholder=t('views.users.lastName')
+        value=_.get(usersForm, 'lastName', '')
+      )
+      label(for='data_lastName')= t('views.users.lastName')
+      if !_.isEmpty(lastNameErrors)
+        .invalid-feedback= lastNameErrors.map(({ message }) => message).join('. ')
+
+    .form-floating.mb-3
+      input#data_email.form-control(
+        class=(!_.isEmpty(emailErrors) ? 'is-invalid' : '')
+        name='data[email]'
+        type='text'
+        placeholder=t('views.users.email')
+        value=_.get(usersForm, 'email', '')
+      )
+      label(for='data_email')= t('views.users.email')
+      if !_.isEmpty(emailErrors)
+        .invalid-feedback= emailErrors.map(({ message }) => message).join('. ')
+
+    .form-floating.mb-3
+      input#data_password.form-control(
+        class=(!_.isEmpty(passwordErrors) ? 'is-invalid' : '')
+        name='data[password]'
+        type='password'
+        placeholder=t('views.users.password')
+      )
+      label(for='data_password')= t('views.users.password')
+      if !_.isEmpty(passwordErrors)
+        .invalid-feedback= passwordErrors.map(({ message }) => message).join('. ')
+
+    input.btn.btn-primary(type='submit' value=t('views.users.new.submit'))

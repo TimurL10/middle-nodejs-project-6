@@ -13,6 +13,21 @@ describe('test users CRUD', () => {
   let models;
   const testData = getTestData();
 
+  const signIn = async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: app.reverse('session'),
+      payload: {
+        data: testData.users.existing_edited,
+      },
+    });
+    const [sessionCookie] = response.cookies;
+    expect(sessionCookie).toBeDefined();
+    const { name, value } = sessionCookie;
+
+    return { [name]: value };
+  };
+
   beforeAll(async () => {
     app = fastify({
       exposeHeadRoutes: false,
@@ -102,6 +117,30 @@ describe('test users CRUD', () => {
     
     user = await models.user.query().findOne({ email: params.email });
     expect(user).toBeDefined();
+  });
+
+  it('does not delete a user assigned as a task executor', async () => {
+    const cookies = await signIn();
+    const user = await models.user.query().findOne({ email: testData.users.existing.email });
+    const creator = await models.user.query().findOne({ email: 'elbert_abshire52@gmail.com' });
+    const status = await models.taskStatus.query().insert({ name: 'executor protected status' });
+    await models.task.query().insert({
+      name: 'task with protected executor',
+      description: 'Task description',
+      statusId: status.id,
+      creatorId: creator.id,
+      executorId: user.id,
+    });
+
+    const response = await app.inject({
+      method: 'GET',
+      url: app.reverse('users.delete', { id: String(user.id) }),
+      cookies,
+    });
+
+    expect(response.statusCode).toBe(302);
+    const existingUser = await models.user.query().findById(user.id);
+    expect(existingUser).toBeDefined();
   });
 
 

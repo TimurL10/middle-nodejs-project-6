@@ -25,12 +25,34 @@ export default {
         delete: {
           error: 'Failed to delete user',
           success: 'User deleted successfully',
+          action: 'Delete',
+        },
+      },
+      taskStatuses: {
+        create: {
+          success: 'Status created successfully',
+        },
+        update: {
+          success: 'Status updated successfully',
+        },
+        delete: {
+          error: 'Failed to delete status',
+          success: 'Status deleted successfully',
+        },
+      },
+      tasks: {
+        create: {
+          error: 'Failed to create task',
+          success: 'Task created successfully',
+        },
       },
       authError: 'Access denied! Please login',
     },
     layouts: {
       application: {
         users: 'Users',
+        taskStatuses: 'Statuses',
+        tasks: 'Tasks',
         signIn: 'Login',
         signUp: 'Register',
         signOut: 'Logout',
@@ -48,6 +70,8 @@ export default {
         email: 'Email',
         createdAt: 'Created at',
         firstName: 'Full name',
+        lastName: 'Last name',
+        password: 'Password',
         new: {
           submit: 'Register',
           signUp: 'Register',
@@ -63,7 +87,55 @@ export default {
         },
         delete: {
           action: 'Delete',
-        }
+        },
+      },
+      taskStatuses: {
+        id: 'ID',
+        name: 'Name',
+        createdAt: 'Created at',
+        index: {
+          header: 'Statuses',
+          create: 'Create status',
+        },
+        new: {
+          header: 'Create status',
+          submit: 'Create',
+        },
+        edit: {
+          header: 'Edit status',
+          action: 'Edit',
+          submit: 'Edit',
+        },
+        delete: {
+          action: 'Delete',
+        },
+      },
+      tasks: {
+        id: 'ID',
+        name: 'Name',
+        description: 'Description',
+        status: 'Status',
+        creator: 'Author',
+        executor: 'Executor',
+        selectStatus: 'Select status',
+        selectExecutor: 'No executor',
+        createdAt: 'Created at',
+        index: {
+          header: 'Tasks',
+          create: 'Create task',
+        },
+        new: {
+          header: 'Create task',
+          submit: 'Create',
+        },
+        edit: {
+          header: 'Edit task',
+          action: 'Edit',
+          submit: 'Edit',
+        },
+        delete: {
+          action: 'Delete',
+        },
       },
       welcome: {
         index: {
@@ -74,5 +146,4 @@ export default {
       },
     },
   },
-}
-}
+};

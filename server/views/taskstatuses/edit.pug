@@ -1,0 +1,22 @@
+extends ../layouts/application.pug
+
+block header
+  = t('views.taskStatuses.edit.header')
+
+block content
+  +formFor()(action=route('updateTaskStatus', { id: String(taskstatus.id) }) method='post')
+    - const nameErrors = _.get(errors, 'name')
+
+    .form-floating.mb-3
+      input#data_name.form-control(
+        class=(!_.isEmpty(nameErrors) ? 'is-invalid' : '')
+        name='data[name]'
+        type='text'
+        placeholder=t('views.taskStatuses.name')
+        value=_.get(taskstatus, 'name', '')
+      )
+      label(for='data_name')= t('views.taskStatuses.name')
+      if !_.isEmpty(nameErrors)
+        .invalid-feedback= nameErrors.map(({ message }) => message).join('. ')
+
+    input.btn.btn-primary(type='submit' value=t('views.taskStatuses.edit.submit'))

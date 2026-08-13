@@ -5,6 +5,30 @@ block header
 
 block content
   +formFor()(action=route('session') method='post')
-    +input(signInForm, 'email', errors)(type="text")
-    +input(signInForm, 'password')(type="password")
-    +submit(signInForm)(value=t('views.session.new.submit'))
+    - const emailErrors = _.get(errors, 'email')
+    - const passwordErrors = _.get(errors, 'password')
+
+    .form-floating.mb-3
+      input#data_email.form-control(
+        class=(!_.isEmpty(emailErrors) ? 'is-invalid' : '')
+        name='data[email]'
+        type='text'
+        placeholder=t('views.users.email')
+        value=_.get(signInForm, 'email', '')
+      )
+      label(for='data_email')= t('views.users.email')
+      if !_.isEmpty(emailErrors)
+        .invalid-feedback= emailErrors.map(({ message }) => message).join('. ')
+
+    .form-floating.mb-3
+      input#data_password.form-control(
+        class=(!_.isEmpty(passwordErrors) ? 'is-invalid' : '')
+        name='data[password]'
+        type='password'
+        placeholder=t('views.users.password')
+      )
+      label(for='data_password')= t('views.users.password')
+      if !_.isEmpty(passwordErrors)
+        .invalid-feedback= passwordErrors.map(({ message }) => message).join('. ')
+
+    input.btn.btn-primary(type='submit' value=t('views.session.new.submit'))

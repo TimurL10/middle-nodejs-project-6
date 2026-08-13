@@ -1,0 +1,32 @@
+extends ../layouts/application.pug
+
+block header
+  = t('views.tasks.index.header')
+
+block content
+  a.btn.btn-primary.mb-3(href=route('newTask'))= t('views.tasks.index.create')
+
+  table.table.table-striped
+    thead
+      tr
+        th= t('views.tasks.id')
+        th= t('views.tasks.name')
+        th= t('views.tasks.status')
+        th= t('views.tasks.creator')
+        th= t('views.tasks.executor')
+        th= t('views.tasks.createdAt')
+        th
+    tbody
+      each task in tasks
+        tr
+          td= task.id
+          td
+            a(href=route('showTask', { id: String(task.id) }))= task.name
+          td= task.status ? task.status.name : ''
+          td= task.creator ? [task.creator.firstName, task.creator.lastName].filter(Boolean).join(' ') || task.creator.email : ''
+          td= task.executor ? [task.executor.firstName, task.executor.lastName].filter(Boolean).join(' ') || task.executor.email : ''
+          td= formatDate(task.createdAt)
+          td
+            a.btn.btn-primary.me-2(href=route('editTask', { id: String(task.id) }))= t('views.tasks.edit.action')
+            form.d-inline(action=route('deleteTask', { id: String(task.id) }) method="post")
+              input(type="submit" class="btn btn-danger" value=t('views.tasks.delete.action'))

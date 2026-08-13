@@ -1,0 +1,27 @@
+extends ../layouts/application.pug
+
+block header
+  = task.name
+
+block content
+  - const creatorName = task.creator ? [task.creator.firstName, task.creator.lastName].filter(Boolean).join(' ') || task.creator.email : ''
+
+  .row
+    .col-md-8
+      h2.h5= t('views.tasks.description')
+      p= task.description || ''
+
+    .col-md-4
+      dl
+        dt= t('views.tasks.status')
+        dd= task.status ? task.status.name : ''
+
+        dt= t('views.tasks.creator')
+        dd= creatorName
+
+        dt= t('views.tasks.createdAt')
+        dd= formatDate(task.createdAt)
+
+      a.btn.btn-primary.me-2(href=route('editTask', { id: String(task.id) }))= t('views.tasks.edit.action')
+      form.d-inline(action=route('deleteTask', { id: String(task.id) }) method='post')
+        input.btn.btn-danger(type='submit' value=t('views.tasks.delete.action'))

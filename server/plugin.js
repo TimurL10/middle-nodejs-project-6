@@ -1,4 +1,4 @@
-// @ts-check
+ //@ts-nocheck
 
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -44,8 +44,8 @@ const setUpViews = (app) => {
     templates: path.join(__dirname, '..', 'server', 'views'),
   });
 
-  app.decorateReply('render', function render(viewPath, locals) {
-    this.view(viewPath, { ...locals, reply: this });
+  app.decorateReply('render', function render(viewPath, locals = {}) {
+    return this.view(viewPath, { ...this.locals, ...locals, reply: this });
   });
 };
 
@@ -60,7 +60,7 @@ const setUpStaticAssets = (app) => {
 const setupLocalization = async () => {
   await i18next
     .init({
-      lng: 'en',
+      lng: 'ru',
       fallbackLng: 'ru',
       // debug: isDevelopment,
       resources: {

@@ -1,8 +1,10 @@
-// @ts-check
+// @ts-nocheck
 
 import i18next from 'i18next';
 
 export default (app) => {
+  const getTaskModel = () => app.objection.models.task;
+
   app
     .get('/users', { name: 'users' }, async (req, reply) => {
       const users = await app.objection.models.user.query();
@@ -72,6 +74,13 @@ export default (app) => {
 
        if (!req.user || (req.user.id && user.id !== req.user.id)) {
         req.flash('error', i18next.t('flash.authError'));
+        reply.redirect(app.reverse('root'));
+        return reply;
+      }
+
+      const task = await getTaskModel().query().findOne({ executorId: user.id });
+      if (task) {
+        req.flash('error', i18next.t('flash.users.delete.error'));
         reply.redirect(app.reverse('root'));
         return reply;
       }

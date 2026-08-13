@@ -28,11 +28,31 @@ export default {
           action: 'Удалить',
         }
       },
+      taskStatuses: {
+        create: {
+          success: 'Статус успешно создан',
+        },
+        update: {
+          success: 'Статус успешно изменен',
+        },
+        delete: {
+          error: 'Не удалось удалить статус',
+          success: 'Статус успешно удален',
+        },
+      },
+      tasks: {
+        create: {
+          error: 'Не удалось создать задачу',
+          success: 'Задача успешно создана',
+        },
+      },
       authError: 'Доступ запрещён! Пожалуйста, авторизируйтесь.',
     },
     layouts: {
       application: {
         users: 'Пользователи',
+        taskStatuses: 'Статусы',
+        tasks: 'Задачи',
         signIn: 'Вход',
         signUp: 'Регистрация',
         signOut: 'Выход',
@@ -50,6 +70,8 @@ export default {
         email: 'Email',
         createdAt: 'Дата создания',
         firstName: 'ФИО',
+        lastName: 'Фамилия',
+        password: 'Пароль',
         new: {
           submit: 'Сохранить',
           signUp: 'Регистрация',
@@ -68,6 +90,54 @@ export default {
           success: 'Пользователь успешно удалён',
           action: 'Удалить',
         }
+      },
+      taskStatuses: {
+        id: 'ID',
+        name: 'Наименование',
+        createdAt: 'Дата создания',
+        index: {
+          header: 'Статусы',
+          create: 'Создать статус',
+        },
+        new: {
+          header: 'Создать статус',
+          submit: 'Создать',
+        },
+        edit: {
+          header: 'Изменить статус',
+          action: 'Изменить',
+          submit: 'Изменить',
+        },
+        delete: {
+          action: 'Удалить',
+        },
+      },
+      tasks: {
+        id: 'ID',
+        name: 'Наименование',
+        description: 'Описание',
+        status: 'Статус',
+        creator: 'Автор',
+        executor: 'Исполнитель',
+        selectStatus: 'Выберите статус',
+        selectExecutor: 'Без исполнителя',
+        createdAt: 'Дата создания',
+        index: {
+          header: 'Задачи',
+          create: 'Создать задачу',
+        },
+        new: {
+          header: 'Создать задачу',
+          submit: 'Создать',
+        },
+        edit: {
+          header: 'Изменить задачу',
+          action: 'Изменить',
+          submit: 'Изменить',
+        },
+        delete: {
+          action: 'Удалить',
+        },
       },
       welcome: {
         index: {
