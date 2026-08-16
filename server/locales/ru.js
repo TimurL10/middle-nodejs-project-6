@@ -2,7 +2,7 @@
 
 export default {
   translation: {
-    appName: 'Fastify Шаблон',
+    appName: 'Менеджер задач',
     flash: {
       session: {
         create: {
@@ -46,6 +46,20 @@ export default {
           success: 'Задача успешно создана',
         },
       },
+      labels: {
+        create: {
+          error: 'Не удалось создать метку',
+          success: 'Метка успешно создана',
+        },
+        update: {
+          error: 'Не удалось изменить метку',
+          success: 'Метка успешно изменена',
+        },
+        delete: {
+          error: 'Не удалось удалить метку',
+          success: 'Метка успешно удалена',
+        },
+      },
       authError: 'Доступ запрещён! Пожалуйста, авторизируйтесь.',
     },
     layouts: {
@@ -53,6 +67,7 @@ export default {
         users: 'Пользователи',
         taskStatuses: 'Статусы',
         tasks: 'Задачи',
+        labels: 'Метки',
         signIn: 'Вход',
         signUp: 'Регистрация',
         signOut: 'Выход',
@@ -69,7 +84,7 @@ export default {
         id: 'ID',
         email: 'Email',
         createdAt: 'Дата создания',
-        firstName: 'ФИО',
+        firstName: 'Имя',
         lastName: 'Фамилия',
         password: 'Пароль',
         new: {
@@ -119,12 +134,16 @@ export default {
         status: 'Статус',
         creator: 'Автор',
         executor: 'Исполнитель',
+        label: 'Метка',
+        labels: 'Метки',
+        onlyMyTasks: 'Только мои задачи',
         selectStatus: 'Выберите статус',
         selectExecutor: 'Без исполнителя',
         createdAt: 'Дата создания',
         index: {
           header: 'Задачи',
           create: 'Создать задачу',
+          filter: 'Показать',
         },
         new: {
           header: 'Создать задачу',
@@ -132,6 +151,27 @@ export default {
         },
         edit: {
           header: 'Изменить задачу',
+          action: 'Изменить',
+          submit: 'Изменить',
+        },
+        delete: {
+          action: 'Удалить',
+        },
+      },
+      labels: {
+        id: 'ID',
+        name: 'Наименование',
+        createdAt: 'Дата создания',
+        index: {
+          header: 'Метки',
+          create: 'Создать метку',
+        },
+        new: {
+          header: 'Создать метку',
+          submit: 'Создать',
+        },
+        edit: {
+          header: 'Изменить метку',
           action: 'Изменить',
           submit: 'Изменить',
         },

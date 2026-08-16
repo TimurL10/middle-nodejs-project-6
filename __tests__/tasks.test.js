@@ -67,12 +67,14 @@ describe('test tasks CRUD', () => {
   });
 
   it('index', async () => {
+    const cookies = await signIn();
     const { task, status, creator, executor } = await prepareTaskData();
     await models.task.query().insert(task);
 
     const response = await app.inject({
       method: 'GET',
       url: app.reverse('tasks'),
+      cookies,
     });
 
     expect(response.statusCode).toBe(200);
@@ -80,6 +82,35 @@ describe('test tasks CRUD', () => {
     expect(response.body).toContain(status.name);
     expect(response.body).toContain(getUserName(creator));
     expect(response.body).toContain(getUserName(executor));
+  });
+
+  it('redirects from index when user is not authenticated', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: app.reverse('tasks'),
+    });
+
+    expect(response.statusCode).toBe(302);
+  });
+
+  it('filters tasks by status, executor, label and creator', async () => {
+    const cookies = await signIn();
+    const first = await prepareTaskData({ name: getUniqueName('filtered-task') });
+    const second = await prepareTaskData({ name: getUniqueName('hidden-task') });
+    const label = await models.label.query().insert({ name: getUniqueName('filter-label') });
+    const firstTask = await models.task.query().insert(first.task);
+    await firstTask.$relatedQuery('labels').relate(label.id);
+    await models.task.query().insert(second.task);
+
+    const response = await app.inject({
+      method: 'GET',
+      url: `${app.reverse('tasks')}?status=${first.status.id}&executor=${first.executor.id}&label=${label.id}&isCreatorUser=on`,
+      cookies,
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toContain(first.task.name);
+    expect(response.body).not.toContain(second.task.name);
   });
 
   it('new', async () => {
@@ -96,11 +127,13 @@ describe('test tasks CRUD', () => {
   it('create', async () => {
     const cookies = await signIn();
     const { status, executor } = await prepareTaskData();
+    const label = await models.label.query().insert({ name: getUniqueName('label') });
     const params = {
       name: getUniqueName('created-task'),
       description: 'Created task description',
       statusId: String(status.id),
       executorId: String(executor.id),
+      labelIds: [String(label.id)],
     };
 
     const response = await app.inject({
@@ -121,6 +154,9 @@ describe('test tasks CRUD', () => {
       executorId: executor.id,
     });
     expect(task.creatorId).toBeDefined();
+    const labels = await task.$relatedQuery('labels');
+    expect(labels).toHaveLength(1);
+    expect(labels[0]).toMatchObject({ id: label.id, name: label.name });
   });
 
   it('show', async () => {
@@ -160,11 +196,13 @@ describe('test tasks CRUD', () => {
     const createdTask = await models.task.query().insert(task);
     const newStatus = await models.taskStatus.query().insert({ name: getUniqueName('updated-status') });
     const newExecutor = await models.user.query().findOne({ email: 'nona_murray@yahoo.com' });
+    const label = await models.label.query().insert({ name: getUniqueName('updated-label') });
     const params = {
       name: getUniqueName('updated-task'),
       description: 'Updated task description',
       statusId: String(newStatus.id),
       executorId: String(newExecutor.id),
+      labelIds: [String(label.id)],
     };
 
     const response = await app.inject({
@@ -184,6 +222,9 @@ describe('test tasks CRUD', () => {
       statusId: newStatus.id,
       executorId: newExecutor.id,
     });
+    const labels = await updatedTask.$relatedQuery('labels');
+    expect(labels).toHaveLength(1);
+    expect(labels[0]).toMatchObject({ id: label.id, name: label.name });
   });
 
   it('delete', async () => {

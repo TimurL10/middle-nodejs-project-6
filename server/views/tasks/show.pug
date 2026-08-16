@@ -19,6 +19,9 @@ block content
         dt= t('views.tasks.creator')
         dd= creatorName
 
+        dt= t('views.tasks.labels')
+        dd= task.labels.map(({ name }) => name).join(', ')
+
         dt= t('views.tasks.createdAt')
         dd= formatDate(task.createdAt)
 

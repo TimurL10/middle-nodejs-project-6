@@ -46,6 +46,20 @@ export default {
           success: 'Task created successfully',
         },
       },
+      labels: {
+        create: {
+          error: 'Failed to create label',
+          success: 'Label created successfully',
+        },
+        update: {
+          error: 'Failed to update label',
+          success: 'Label updated successfully',
+        },
+        delete: {
+          error: 'Failed to delete label',
+          success: 'Label deleted successfully',
+        },
+      },
       authError: 'Access denied! Please login',
     },
     layouts: {
@@ -53,6 +67,7 @@ export default {
         users: 'Users',
         taskStatuses: 'Statuses',
         tasks: 'Tasks',
+        labels: 'Labels',
         signIn: 'Login',
         signUp: 'Register',
         signOut: 'Logout',
@@ -117,12 +132,16 @@ export default {
         status: 'Status',
         creator: 'Author',
         executor: 'Executor',
+        label: 'Label',
+        labels: 'Labels',
+        onlyMyTasks: 'Only my tasks',
         selectStatus: 'Select status',
         selectExecutor: 'No executor',
         createdAt: 'Created at',
         index: {
           header: 'Tasks',
           create: 'Create task',
+          filter: 'Show',
         },
         new: {
           header: 'Create task',
@@ -130,6 +149,27 @@ export default {
         },
         edit: {
           header: 'Edit task',
+          action: 'Edit',
+          submit: 'Edit',
+        },
+        delete: {
+          action: 'Delete',
+        },
+      },
+      labels: {
+        id: 'ID',
+        name: 'Name',
+        createdAt: 'Created at',
+        index: {
+          header: 'Labels',
+          create: 'Create label',
+        },
+        new: {
+          header: 'Create label',
+          submit: 'Create',
+        },
+        edit: {
+          header: 'Edit label',
           action: 'Edit',
           submit: 'Edit',
         },

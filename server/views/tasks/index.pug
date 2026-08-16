@@ -6,6 +6,54 @@ block header
 block content
   a.btn.btn-primary.mb-3(href=route('newTask'))= t('views.tasks.index.create')
 
+  .card.mb-5
+    .card-body
+      form(action=route('tasks') method='get')
+        .row.g-4.mb-3
+          .col-md-4
+            .input-group
+              label.input-group-text(for='filter_status')= t('views.tasks.status')
+              select#filter_status.form-select(name='status')
+                option(value='')
+                each taskStatus in taskStatuses
+                  option(
+                    value=taskStatus.id
+                    selected=String(_.get(filters, 'status', '')) === String(taskStatus.id)
+                  )= taskStatus.name
+
+          .col-md-4
+            .input-group
+              label.input-group-text(for='filter_executor')= t('views.tasks.executor')
+              select#filter_executor.form-select(name='executor')
+                option(value='')
+                each user in users
+                  - const userName = [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email
+                  option(
+                    value=user.id
+                    selected=String(_.get(filters, 'executor', '')) === String(user.id)
+                  )= userName
+
+          .col-md-4
+            .input-group
+              label.input-group-text(for='filter_label')= t('views.tasks.label')
+              select#filter_label.form-select(name='label')
+                option(value='')
+                each label in labels
+                  option(
+                    value=label.id
+                    selected=String(_.get(filters, 'label', '')) === String(label.id)
+                  )= label.name
+
+        .form-check.mb-3
+          input#filter_isCreatorUser.form-check-input(
+            type='checkbox'
+            name='isCreatorUser'
+            checked=_.get(filters, 'isCreatorUser') === 'on'
+          )
+          label.form-check-label(for='filter_isCreatorUser')= t('views.tasks.onlyMyTasks')
+
+        input.btn.btn-primary(type='submit' value=t('views.tasks.index.filter'))
+
   table.table.table-striped
     thead
       tr
