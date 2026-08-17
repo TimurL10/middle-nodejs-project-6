@@ -29,7 +29,7 @@ export default (app) => {
             email: [{ message: i18next.t('flash.session.create.error') }],
           };
           authReply.render('session/new', { signInForm, errors });
-          return authReply;
+          return authReply.code(422);
         }
         await authReq.logIn(user);
         authReq.flash('success', i18next.t('flash.session.create.success'));
