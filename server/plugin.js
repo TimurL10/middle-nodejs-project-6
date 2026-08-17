@@ -24,11 +24,25 @@ import getHelpers from './helpers/index.js';
 import * as knexConfig from '../knexfile.js';
 import models from './models/index.js';
 import FormStrategy from './lib/passportStrategies/FormStrategy.js';
+import * as Sentry   from '@sentry/node';
 
 const __dirname = fileURLToPath(path.dirname(import.meta.url));
 
 const mode = process.env.NODE_ENV || 'development';
 // const isDevelopment = mode === 'development';
+
+
+const bugsink = async (app) => {
+  Sentry.init({
+    dsn: process.env.BUGSINK_DSN,
+    environment: process.env.NODE_ENV || 'development',
+  });
+
+  //Sentry.setupFastifyErrorHandler(app);
+Sentry.setupFastifyErrorHandler(app);
+
+};
+
 
 const setUpViews = (app) => {
   const helpers = getHelpers(app);
@@ -119,6 +133,8 @@ export const options = {
 
 // eslint-disable-next-line no-unused-vars
 export default async (app, _options) => {
+
+  await bugsink(app);
   await registerPlugins(app);
 
   await setupLocalization();

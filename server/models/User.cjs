@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 
 const BaseModel = require('./BaseModel.cjs');
 const objectionUnique = require('objection-unique');

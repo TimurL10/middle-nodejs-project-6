@@ -66,4 +66,4 @@ export default (app) => {
         reply.redirect(app.reverse('labels'));
         return reply;
     });
-}
+  }    
