@@ -20,7 +20,7 @@ block content
       )
       label(for='data_firstName')= t('views.users.edit.firstName')
       if !_.isEmpty(firstNameErrors)
-        .invalid-feedback= firstNameErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= firstNameErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
       input#data_lastName.form-control(
@@ -32,7 +32,7 @@ block content
       )
       label(for='data_lastName')= t('views.users.edit.lastName')
       if !_.isEmpty(lastNameErrors)
-        .invalid-feedback= lastNameErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= lastNameErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
       input#data_email.form-control.bg-warning-subtle(
@@ -44,7 +44,7 @@ block content
       )
       label(for='data_email')= t('views.users.email')
       if !_.isEmpty(emailErrors)
-        .invalid-feedback= emailErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= emailErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
       input#data_password.form-control.bg-warning-subtle(
@@ -55,6 +55,6 @@ block content
       )
       label(for='data_password')= t('views.users.edit.password')
       if !_.isEmpty(passwordErrors)
-        .invalid-feedback= passwordErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= passwordErrors.map(({ message }) => message).join('. ')
 
     input.btn.btn-primary(type='submit' value='Изменить')

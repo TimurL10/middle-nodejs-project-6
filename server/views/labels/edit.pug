@@ -17,6 +17,6 @@ block content
       )
       label(for='data_name')= t('views.labels.name')
       if !_.isEmpty(nameErrors)
-        .invalid-feedback= nameErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= nameErrors.map(({ message }) => message).join('. ')
 
     input.btn.btn-primary(type='submit' value=t('views.labels.edit.submit'))

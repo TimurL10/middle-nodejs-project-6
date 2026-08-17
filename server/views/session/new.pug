@@ -18,7 +18,7 @@ block content
       )
       label(for='data_email')= t('views.users.email')
       if !_.isEmpty(emailErrors)
-        .invalid-feedback= emailErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= emailErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
       input#data_password.form-control(
@@ -29,6 +29,6 @@ block content
       )
       label(for='data_password')= t('views.users.password')
       if !_.isEmpty(passwordErrors)
-        .invalid-feedback= passwordErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= passwordErrors.map(({ message }) => message).join('. ')
 
     input.btn.btn-primary(type='submit' value=t('views.session.new.submit'))

@@ -20,7 +20,7 @@ block content
       )
       label(for='data_name')= t('views.tasks.name')
       if !_.isEmpty(nameErrors)
-        .invalid-feedback= nameErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= nameErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
       textarea#data_description.form-control(
@@ -31,7 +31,7 @@ block content
       )= _.get(task, 'description', '')
       label(for='data_description')= t('views.tasks.description')
       if !_.isEmpty(descriptionErrors)
-        .invalid-feedback= descriptionErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= descriptionErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
       select#data_statusId.form-select(
@@ -46,7 +46,7 @@ block content
           )= taskStatus.name
       label(for='data_statusId')= t('views.tasks.status')
       if !_.isEmpty(statusErrors)
-        .invalid-feedback= statusErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= statusErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
       select#data_executorId.form-select(
@@ -62,7 +62,7 @@ block content
           )= userName
       label(for='data_executorId')= t('views.tasks.executor')
       if !_.isEmpty(executorErrors)
-        .invalid-feedback= executorErrors.map(({ message }) => message).join('. ')
+        .form-control-feedback.invalid-feedback= executorErrors.map(({ message }) => message).join('. ')
 
     .mb-3
       label.form-label(for='data_labelIds')= t('views.tasks.labels')

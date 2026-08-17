@@ -20,7 +20,7 @@ mixin input(entity, propertyName, errors = {})
       value=_.get(entity, propertyName, '')
     )&attributes(attributes)
     if !_.isEmpty(propertyErrors)
-      .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
+      .form-control-feedback.invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
 
 mixin submit(form = null)
   input(class='btn btn-primary' type='submit')&attributes(attributes)
