@@ -11,7 +11,6 @@ import fastifySecureSession from '@fastify/secure-session';
 import fastifyPassport from '@fastify/passport';
 import fastifySensible from '@fastify/sensible';
 import { plugin as fastifyReverseRoutes } from 'fastify-reverse-routes';
-import fastifyObjectionjs from 'fastify-objectionjs';
 import qs from 'qs';
 import Pug from 'pug';
 import i18next from 'i18next';
@@ -25,7 +24,8 @@ import * as knexConfig from '../knexfile.js';
 import models from './models/index.js';
 import FormStrategy from './lib/passportStrategies/FormStrategy.js';
 import * as Sentry   from '@sentry/node';
-
+import Knex from 'knex';
+import { Model, knexSnakeCaseMappers } from 'objection';
 const __dirname = fileURLToPath(path.dirname(import.meta.url));
 
 const mode = process.env.NODE_ENV || 'development';
@@ -121,12 +121,26 @@ const registerPlugins = async (app) => {
   // @ts-ignore
   )(...args));
 
-  await app.register(fastifyObjectionjs, {
-    knexConfig: knexConfig[mode],
-    models,
+  const knex = Knex({
+    ...knexConfig[mode],
+    ...knexSnakeCaseMappers(),
   });
-};
 
+  Model.knex(knex);
+
+  const modelRegistry = Object.fromEntries(
+    models.map((model) => [model.name.charAt(0).toLowerCase() + model.name.slice(1), model]),
+  );
+
+  app.decorate('objection', {
+    models: modelRegistry,
+    knex,
+  });
+
+app.addHook('onClose', async () => {
+  await knex.destroy();
+});
+}
 export const options = {
   exposeHeadRoutes: false,
 };
