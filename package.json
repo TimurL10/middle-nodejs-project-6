@@ -79,5 +79,8 @@
       "eslint-plugin-jest": "^29.15.0",
       "jest": "^30.3.0",
       "jest-cli": "^30.3.0"
-   }
+   },
+   "overrides": {
+      "better-sqlite3": "^12.10.0"
+}
 }
