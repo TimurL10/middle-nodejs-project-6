@@ -27,9 +27,15 @@ export default (app) => {
           const signInForm = authReq.body.data;
           const errors = {
             email: [{ message: i18next.t('flash.session.create.error') }],
+            password: [{ message: i18next.t('flash.session.create.error') }],
           };
           authReply.render('session/new', { signInForm, errors });
-          return authReply.code(422);
+          authReply.code(422);
+          authReply.render('session/new', {
+            signInForm,
+            errors,
+          });
+          return authReply;
         }
         await authReq.logIn(user);
         authReq.flash('success', i18next.t('flash.session.create.success'));
