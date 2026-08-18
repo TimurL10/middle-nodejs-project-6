@@ -1,7 +1,7 @@
 extends ../layouts/application.pug
 
 block header
-  | Изменение пользователя
+  = t('views.users.edit.editProfile')
 
 block content
   +formFor()(action=route('users.update', { id: String(user.id) }) method='post')
@@ -35,7 +35,7 @@ block content
         .form-control-feedback.invalid-feedback= lastNameErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
-      input#data_email.form-control.bg-warning-subtle(
+      input#data_email.form-control(
         class=(!_.isEmpty(emailErrors) ? 'is-invalid' : '')
         name='data[email]'
         type='text'
@@ -47,7 +47,7 @@ block content
         .form-control-feedback.invalid-feedback= emailErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
-      input#data_password.form-control.bg-warning-subtle(
+      input#data_password.form-control(
         class=(!_.isEmpty(passwordErrors) ? 'is-invalid' : '')
         name='data[password]'
         type='password'
@@ -57,4 +57,4 @@ block content
       if !_.isEmpty(passwordErrors)
         .form-control-feedback.invalid-feedback= passwordErrors.map(({ message }) => message).join('. ')
 
-    input.btn.btn-primary(type='submit' value='Изменить')
+    input.btn.btn-primary(type='submit' value=t('views.users.edit.submit'))

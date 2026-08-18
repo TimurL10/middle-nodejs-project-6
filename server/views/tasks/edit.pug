@@ -34,6 +34,7 @@ block content
         .form-control-feedback.invalid-feedback= descriptionErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
+      label(for='data_statusId')= t('views.tasks.status')
       select#data_statusId.form-select(
         class=(!_.isEmpty(statusErrors) ? 'is-invalid' : '')
         name='data[statusId]'
@@ -44,11 +45,11 @@ block content
             value=taskStatus.id
             selected=String(_.get(task, 'statusId', '')) === String(taskStatus.id)
           )= taskStatus.name
-      label(for='data_statusId')= t('views.tasks.status')
       if !_.isEmpty(statusErrors)
         .form-control-feedback.invalid-feedback= statusErrors.map(({ message }) => message).join('. ')
 
     .form-floating.mb-3
+      label(for='data_executorId')= t('views.tasks.executor')
       select#data_executorId.form-select(
         class=(!_.isEmpty(executorErrors) ? 'is-invalid' : '')
         name='data[executorId]'
@@ -60,7 +61,6 @@ block content
             value=user.id
             selected=String(_.get(task, 'executorId', '')) === String(user.id)
           )= userName
-      label(for='data_executorId')= t('views.tasks.executor')
       if !_.isEmpty(executorErrors)
         .form-control-feedback.invalid-feedback= executorErrors.map(({ message }) => message).join('. ')
 
